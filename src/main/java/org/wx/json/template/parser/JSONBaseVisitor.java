@@ -1,5 +1,5 @@
 // Generated from D:/Data/Workspace/java/antlrDemo/src/main/resources\JSON.g4 by ANTLR 4.10.1
-package com.huya.parser;
+package org.wx.json.template.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

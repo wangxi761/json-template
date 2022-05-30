@@ -1,4 +1,4 @@
-package com.huya.com.fasterxml.jackson.databind.node;
+package com.fasterxml.jackson.databind.node;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonToken;

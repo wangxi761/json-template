@@ -1,17 +1,13 @@
-package com.huya;
+package org.wx.json.template;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.huya.com.fasterxml.jackson.databind.node.VarNode;
-import com.huya.parser.JSONBaseVisitor;
-import com.huya.parser.JSONLexer;
-import com.huya.parser.JSONParser;
+import com.fasterxml.jackson.databind.node.VarNode;
+import org.wx.json.template.parser.JSONBaseVisitor;
+import org.wx.json.template.parser.JSONParser;
 import lombok.SneakyThrows;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.util.List;
 
