@@ -47,6 +47,11 @@
                 <configuration>
                     <listener>true</listener>
                     <visitor>true</visitor>
+                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/org/wx/json/template/parser</outputDirectory>
+                    <arguments>
+                        <argument>-package</argument>
+                        <argument>org.wx.json.template.parser</argument>
+                    </arguments>
                 </configuration>
                 <executions>
                     <execution>
