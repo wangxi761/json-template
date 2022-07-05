@@ -31,11 +31,27 @@
             <version>2.13.3</version>
         </dependency>
         <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-maven-plugin</artifactId>
-            <version>4.10.1</version>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
     <build>
@@ -47,10 +63,12 @@
                 <configuration>
                     <listener>true</listener>
                     <visitor>true</visitor>
-                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/org/wx/json/template/parser</outputDirectory>
+                    <outputDirectory>
+                        ${project.build.directory}/generated-sources/antlr4/org/codxiii/json/template/parser
+                    </outputDirectory>
                     <arguments>
                         <argument>-package</argument>
-                        <argument>org.wx.json.template.parser</argument>
+                        <argument>org.codxiii.json.template.parser</argument>
                     </arguments>
                 </configuration>
                 <executions>

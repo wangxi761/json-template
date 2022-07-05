@@ -1,0 +1,24 @@
+{
+  "tId" : {
+    "lUid" : ${uid},
+"sGuid" : "",
+"sToken" : "${GetUdbToken.token}",
+"sHuYaUA" : "",
+"sCookie" : "",
+"iTokenType" : 2,
+"sDeviceInfo" : ""
+},
+"lSessionId" : ${sessionId},
+"iAction" : ${action},
+"lUid" : ${uid},
+"mpContext" : {
+},
+"iPos" : ${pos},
+"sMessage" : "",
+"tInfo" : {
+"tPos" : {
+"lat" : 0.0,
+"lng" : 0.0
+}
+}
+}
