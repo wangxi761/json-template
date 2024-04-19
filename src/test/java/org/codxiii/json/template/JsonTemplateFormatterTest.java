@@ -1,6 +1,7 @@
 package org.codxiii.json.template;
 
 import lombok.SneakyThrows;
+import org.codxiii.json.template.format.JsonTemplateFormatter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
