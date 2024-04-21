@@ -96,7 +96,7 @@ JsonTemplate jsonTemplate = new JsonTemplate();
 String formatted = jsonTemplate.format(jsonTemplateString);
 ```
 this is an example:
-```json
+```
 {"object": {"id": "1","name": "John Doe","email": ""},
   "array": [{"id": "1","name": "John Doe","email": ""},{"id": "2","name": "Jane Doe","email": ""}],
   "string": "Hello, World!","number": 42,"boolean": true,"null": null,
@@ -104,7 +104,7 @@ this is an example:
 "text_interpolation${c}": "Hello, ${object}!",
 }
 ```
-```json
+```
 {
   "object": {
     "id": "1",
