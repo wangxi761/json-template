@@ -1,63 +1,29 @@
 lexer grammar JsonTemplateLexer;
 
-DQUOTE
-    : '"'
-    ;
-FALSE
-    : 'false';
-TRUE
-    : 'true' ;
-NULL
-    : 'null'
-    ;
-VARNAME
-    : [a-zA-Z_] [a-zA-Z_0-9]*
-    ;
-STRING
-    : DQUOTE (ESC | SAFECODEPOINT)* DQUOTE
-    ;
-NUMBER
-    : '-'? INT ('.' [0-9] +)? EXP?
-    ;
-WS
-    : [ \t\n\r] + -> skip
-    ;
-LEFT_BRACE
-    : '{'
-    ;
-RIGHT_BRACE
-    : '}'
-    ;
-SQUARE_LEFT
-    : '['
-    ;
-SQUARE_RIGHT
-    : ']'
-    ;
-COMMA
-    : ','
-    ;
-COLON
-    : ':'
-    ;
-VAR_START
-    : '${'
-    ;
-fragment ESC
-    : '\\' (["\\/bfnrt] | UNICODE)
-    ;
-fragment UNICODE
-    : 'u' HEX HEX HEX HEX
-    ;
-fragment HEX
-    : [0-9a-fA-F]
-    ;
-fragment SAFECODEPOINT
-    : ~ ["\\\u0000-\u001F]
-    ;
-fragment INT
-    : '0' | [1-9] [0-9]*
-    ;
-fragment EXP
-    : [Ee] [+\-]? INT
-    ;
+DQUOTE: '"' -> pushMode(IN_STRING);
+FALSE: 'false';
+TRUE: 'true';
+NULL: 'null';
+LEFT_BRACE: '{';
+RIGHT_BRACE: '}';
+SQUARE_LEFT: '[';
+SQUARE_RIGHT: ']';
+COMMA: ',';
+COLON: ':';
+VAR_START: '${';
+VARNAME: [a-zA-Z_] [a-zA-Z_0-9]*;
+NUMBER: '-'? INT ('.' [0-9] +)? EXP?;
+WS: [ \t\n\r] + -> skip;
+fragment ESC: '\\' (["\\/bfnrt$] | UNICODE);
+fragment UNICODE: 'u' HEX HEX HEX HEX;
+fragment HEX: [0-9a-fA-F];
+fragment SAFECODEPOINT: ~ [$"\\\u0000-\u001F];
+fragment INT: '0' | [1-9] [0-9]*;
+fragment EXP: [Ee] [+\-]? INT;
+mode IN_STRING;
+TEXT: (ESC | SAFECODEPOINT)+;
+VAR_START_IN_STRING: VAR_START -> type(VAR_START),pushMode(EMEBDDED_VAR);
+DQUOTE_IN_STRING: DQUOTE -> type(DQUOTE), popMode;
+mode EMEBDDED_VAR;
+VARNAME_IN_STRING: VARNAME -> type(VARNAME);
+RIGHT_BRACE_IN_STRING: RIGHT_BRACE -> type(RIGHT_BRACE), popMode;

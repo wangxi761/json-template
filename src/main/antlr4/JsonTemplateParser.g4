@@ -42,7 +42,11 @@ value
     | arr
     ;
 str
-    : STRING
+    : DQUOTE string* DQUOTE
+    ;
+string
+    : TEXT
+    | var
     ;
 num
     : NUMBER
