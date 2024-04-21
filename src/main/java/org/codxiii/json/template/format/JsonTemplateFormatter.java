@@ -39,6 +39,9 @@ public class JsonTemplateFormatter {
 	}
 	
 	private void format(JsonTemplateNode<?> node, StringBuilder sb, JsonTemplateFormattingConstraints constraints) {
+		if (node == null) {
+			return;
+		}
 		if (constraints.isNotInObject()) {
 			sb.append(constraints.generateIndent());
 		}
@@ -51,10 +54,10 @@ public class JsonTemplateFormatter {
 				sb.append("]");
 				return;
 			}
-			sb.append("\n");
+			sb.append(constraints.getLineSeparator());
 			for (JsonTemplateNode<?> subNode : arrayNode) {
 				format(subNode, sb, subConstraints.setNotInObject(true));
-				sb.append(",").append("\n");
+				sb.append(",").append(constraints.getLineSeparator());
 			}
 			sb.append(constraints.generateIndent()).append("]");
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.OBJECT)) {
@@ -64,13 +67,13 @@ public class JsonTemplateFormatter {
 				sb.append("}");
 				return;
 			}
-			sb.append("\n");
+			sb.append(constraints.getLineSeparator());
 			for (Map.Entry<TextNode, JsonTemplateNode<?>> entry : objectNode) {
 				sb.append(constraints.generateIndent(1))
 				  .append(entry.getKey().toRawString())
 				  .append(": ");
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
-				sb.append(",").append("\n");
+				sb.append(",").append(constraints.getLineSeparator());
 			}
 			sb.append(constraints.generateIndent()).append("}");
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
@@ -86,10 +89,6 @@ public class JsonTemplateFormatter {
 		StringBuilder sb = new StringBuilder();
 		formatter.format(formatter.root, sb);
 		return sb.toString();
-	}
-	
-	public static String format(String input) {
-		return format(input, createDefaultConfig());
 	}
 	
 	public static JsonTemplateFormatterConfig createDefaultConfig() {

@@ -13,7 +13,7 @@ class JsonTemplateFormatterTest {
 		String originalContent = TestUtil.getContentFromPath(TestUtil.getResourcePathFromClassPath("test.json"));
 		String expectedContent = TestUtil.getContentFromPath(TestUtil.getResourcePathFromClassPath("test_formatted.json"));
 		
-		String formatted = JsonTemplateFormatter.format(originalContent);
+		String formatted = new JsonTemplate().format(originalContent);
 		then(formatted).isNotEqualTo(expectedContent);
 	}
 	
