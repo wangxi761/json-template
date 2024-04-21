@@ -1,12 +1,11 @@
 package org.codxiii.json.template;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.BDDAssertions;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.json.*;
 import org.codxiii.json.template.parser.JsonTemplateParser;
 import org.codxiii.json.template.parser.JsonTemplateParserBaseVisitor;
+import org.codxiii.json.template.test.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateObjectNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -48,7 +47,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateArrayNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -63,7 +62,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateTextNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -78,7 +77,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateVarNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -93,7 +92,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateBoolNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -108,7 +107,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateNullNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
@@ -123,7 +122,7 @@ class JsonTemplateAntlrVisitorTest {
 	
 	@Test
 	public void shouldGenerateNumberNode() {
-		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getTestResource("test.json"));
+		JsonTemplateParser parser = TestUtil.createParser(TestUtil.getResourceFromClassPath("test.json"));
 		JsonTemplateParser.Json_templateContext json = parser.json_template();
 		json.accept(new JsonTemplateParserBaseVisitor<Void>() {
 			@Override
