@@ -44,7 +44,7 @@ public class JsonTemplateAntlrVisitor extends JsonTemplateParserBaseVisitor<Json
 			}
 		}
 		if (pureText) {
-			String text = nodes.stream().map(JsonTemplateNode::toRawString).collect(Collectors.joining());
+			String text = nodes.stream().map(JsonTemplateNode::getValue).map(Object::toString).collect(Collectors.joining());
 			return new TextNode(text, ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
 		}
 		return new TextInterpolationNode(nodes, ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());

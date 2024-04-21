@@ -33,9 +33,13 @@ public class TextInterpolationNode extends TextNode {
 	public String toRawString() {
 		StringBuilder sb = new StringBuilder();
 		for (JsonTemplateNode<?> child : children) {
-			sb.append(child.toRawString());
+			if (child.getNodeType() == JsonTemplateNodeType.TEXT) {
+				sb.append(child.getValue());
+			} else {
+				sb.append(child.toRawString());
+			}
 		}
-		return sb.toString();
+		return "\"" + sb + "\"";
 	}
 	
 	@Override

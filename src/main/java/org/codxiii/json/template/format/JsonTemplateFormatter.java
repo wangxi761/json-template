@@ -6,12 +6,16 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
+import org.codxiii.json.template.ast.json.ArrayNode;
+import org.codxiii.json.template.ast.json.ObjectNode;
+import org.codxiii.json.template.ast.json.TextNode;
 import org.codxiii.json.template.parser.JsonTemplateLexer;
 import org.codxiii.json.template.parser.JsonTemplateParser;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Objects;
 
 public class JsonTemplateFormatter {
@@ -30,15 +34,68 @@ public class JsonTemplateFormatter {
 		root = visitor.visit(rootContext);
 	}
 	
+	public void format(JsonTemplateNode<?> node, StringBuilder sb) {
+		format(node, sb, new JsonTemplateFormattingConstraints.Builder(config).build());
+	}
 	
-	public void format(JsonTemplateNode<?> node,JsonTemplateFormattingConstraints constraints){
+	private void format(JsonTemplateNode<?> node, StringBuilder sb, JsonTemplateFormattingConstraints constraints) {
+		if (constraints.isNotInObject()) {
+			sb.append(constraints.generateIndent());
+		}
+		
+		JsonTemplateFormattingConstraints subConstraints = constraints.copy().addIndentLevel();
 		if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.ARRAY)) {
-		
+			sb.append("[");
+			ArrayNode arrayNode = node.toArrayNode();
+			if (arrayNode.isEmpty()) {
+				sb.append("]");
+				return;
+			}
+			sb.append("\n");
+			for (JsonTemplateNode<?> subNode : arrayNode) {
+				format(subNode, sb, subConstraints.setNotInObject(true));
+				sb.append(",").append("\n");
+			}
+			sb.append(constraints.generateIndent()).append("]");
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.OBJECT)) {
-		
+			sb.append("{");
+			ObjectNode objectNode = node.toObjectNode();
+			if (objectNode.isEmpty()) {
+				sb.append("}");
+				return;
+			}
+			sb.append("\n");
+			for (Map.Entry<TextNode, JsonTemplateNode<?>> entry : objectNode) {
+				sb.append(constraints.generateIndent(1))
+				  .append(entry.getKey().toRawString())
+				  .append(": ");
+				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
+				sb.append(",").append("\n");
+			}
+			sb.append(constraints.generateIndent()).append("}");
+		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
+			sb.append(node.toRawString());
 		} else {
-		
+			sb.append(node.toRawString());
 		}
 	}
-
+	
+	public static String format(String input, JsonTemplateFormatterConfig config) {
+		JsonTemplateFormatter formatter = new JsonTemplateFormatter(config);
+		formatter.parse(input);
+		StringBuilder sb = new StringBuilder();
+		formatter.format(formatter.root, sb);
+		return sb.toString();
+	}
+	
+	public static String format(String input) {
+		return format(input, createDefaultConfig());
+	}
+	
+	public static JsonTemplateFormatterConfig createDefaultConfig() {
+		return new JsonTemplateFormatterConfig()
+			.setTabSize(4)
+			.setUseTab(false);
+	}
+	
 }

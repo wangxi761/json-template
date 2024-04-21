@@ -12,4 +12,9 @@ public class NullNode extends JsonTemplateNode<Void> {
 	public JsonTemplateNodeType getNodeType() {
 		return JsonTemplateNodeType.NULL;
 	}
+	
+	@Override
+	public String toRawString() {
+		return "null";
+	}
 }

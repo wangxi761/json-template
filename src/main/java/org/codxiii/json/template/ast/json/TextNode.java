@@ -14,4 +14,9 @@ public class TextNode extends JsonTemplateNode<String> {
 	public JsonTemplateNodeType getNodeType() {
 		return JsonTemplateNodeType.TEXT;
 	}
+	
+	@Override
+	public String toRawString() {
+		return "\"" + getValue() + "\"";
+	}
 }
