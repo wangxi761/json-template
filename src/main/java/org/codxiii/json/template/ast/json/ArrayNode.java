@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ArrayNode extends JsonTemplateNode<List<JsonTemplateNode<?>>> {
 	
-	public ArrayNode(List<JsonTemplateNode<?>> values, String type, int start, int end) {
-		super(type, start, end);
+	public ArrayNode(List<JsonTemplateNode<?>> values, int start, int end) {
+		super(start, end);
 		this.setValue(values);
 	}
 	
 	public ArrayNode(String type, int start, int end) {
-		this(new ArrayList<>(), type, start, end);
+		this(new ArrayList<>(), start, end);
 	}
 	
 	

@@ -5,11 +5,11 @@ import org.codxiii.json.template.ast.JsonTemplateNodeType;
 
 public class BoolNode extends JsonTemplateNode<Boolean> {
 	
-	public BoolNode(boolean value, String type, int start, int end) {
-		super(type, start, end);
+	public BoolNode(boolean value, int start, int end) {
+		super(start, end);
 		this.setValue(value);
 	}
-
+	
 	@Override
 	public JsonTemplateNodeType getNodeType() {
 		return JsonTemplateNodeType.BOOL;

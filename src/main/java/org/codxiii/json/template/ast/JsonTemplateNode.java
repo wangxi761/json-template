@@ -9,11 +9,15 @@ public abstract class JsonTemplateNode<T> extends BaseNode {
 	
 	private T value;
 	
-	public JsonTemplateNode(String type, int start, int end) {
-		super(type, start, end);
+	public JsonTemplateNode(int start, int end) {
+		super(null, start, end);
+		setType(getNodeType().name());
 	}
 	
 	public abstract JsonTemplateNodeType getNodeType();
 	
-
+	public String toRawString() {
+		return getValue().toString();
+	}
+	
 }

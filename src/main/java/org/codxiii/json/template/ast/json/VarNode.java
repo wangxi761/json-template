@@ -5,13 +5,18 @@ import org.codxiii.json.template.ast.JsonTemplateNodeType;
 
 public class VarNode extends JsonTemplateNode<String> {
 	
-	public VarNode(String variableName, String type, int start, int end) {
-		super(type, start, end);
+	public VarNode(String variableName, int start, int end) {
+		super(start, end);
 		this.setValue(variableName);
 	}
 	
 	@Override
 	public JsonTemplateNodeType getNodeType() {
 		return JsonTemplateNodeType.VAR;
+	}
+	
+	@Override
+	public String toRawString() {
+		return "${" + super.toRawString() + "}";
 	}
 }

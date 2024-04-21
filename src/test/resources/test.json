@@ -2,7 +2,7 @@
   "tId" : {
     "lUid" : ${uid},
 "sGuid" : "",
-"sToken" : "${GetUdbToken.token}",
+"sToken" : "${GetUdbToken}",
 "sHuYaUA" : "",
 "sCookie" : "",
 "iTokenType" : 2,

@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.parser.JSONLexer;
-import org.codxiii.json.template.parser.JSONParser;
+import org.codxiii.json.template.parser.JsonTemplateLexer;
+import org.codxiii.json.template.parser.JsonTemplateParser;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class JsonTemplateFormatter {
-	private JSONParser parser;
+	private JsonTemplateParser parser;
 	private JsonTemplateNode<?> root;
 	private JsonTemplateFormatterConfig config;
 	
@@ -24,10 +24,10 @@ public class JsonTemplateFormatter {
 	}
 	
 	public void parse(String input) {
-		parser = new JSONParser(new CommonTokenStream(new JSONLexer(CharStreams.fromString(input))));
-		JSONParser.JsonContext rootContext = parser.json();
+		parser = new JsonTemplateParser(new CommonTokenStream(new JsonTemplateLexer(CharStreams.fromString(input))));
+		JsonTemplateParser.Json_templateContext rootContext = parser.json_template();
 		JsonTemplateAntlrVisitor visitor = new JsonTemplateAntlrVisitor();
-		root = visitor.visitJson(rootContext);
+		root = visitor.visit(rootContext);
 	}
 	
 	
@@ -40,22 +40,5 @@ public class JsonTemplateFormatter {
 		
 		}
 	}
-	
-	@SneakyThrows
-	public static String format(String input) {
-		JSONParser parser = new JSONParser(new CommonTokenStream(new JSONLexer(CharStreams.fromString(input))));
-		return null;
-	}
-	
-	@SneakyThrows
-	public static String format(InputStream input) {
-		JSONParser parser = new JSONParser(new CommonTokenStream(new JSONLexer(CharStreams.fromStream(input, StandardCharsets.UTF_8))));
-		return null;
-	}
-	
-	@SneakyThrows
-	public static String format(Path path) {
-		JSONParser parser = new JSONParser(new CommonTokenStream(new JSONLexer(CharStreams.fromPath(path, StandardCharsets.UTF_8))));
-		return null;
-	}
+
 }

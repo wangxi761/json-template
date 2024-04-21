@@ -27,7 +27,6 @@ class JsonTemplateFormatterTest {
 		assert input != null;
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
 			String inputStr = reader.lines().collect(Collectors.joining("\n"));
-			System.out.println(JsonTemplateFormatter.format(inputStr));
 		}
 	}
 	
@@ -35,7 +34,6 @@ class JsonTemplateFormatterTest {
 	void formatStream() {
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream("test.json");
 		assert input != null;
-		System.out.println(JsonTemplateFormatter.format(input));
 	}
 	
 	@Test
@@ -43,6 +41,5 @@ class JsonTemplateFormatterTest {
 	void formatPath() {
 		URL resource = this.getClass().getClassLoader().getResource("test.json");
 		assert resource != null;
-		System.out.println(JsonTemplateFormatter.format(Paths.get(resource.toURI())));
 	}
 }

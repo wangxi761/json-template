@@ -42,9 +42,9 @@ value
     | arr
     ;
 str
-    : DQUOTE string* DQUOTE
+    : DQUOTE string_content* DQUOTE
     ;
-string
+string_content
     : TEXT
     | var
     ;

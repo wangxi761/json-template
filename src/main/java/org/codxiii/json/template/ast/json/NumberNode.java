@@ -5,8 +5,8 @@ import org.codxiii.json.template.ast.JsonTemplateNodeType;
 
 public class NumberNode extends JsonTemplateNode<Number> {
 	
-	public NumberNode(Number num, String type, int start, int end) {
-		super(type, start, end);
+	public NumberNode(Number num, int start, int end) {
+		super(start, end);
 		this.setValue(num);
 	}
 	

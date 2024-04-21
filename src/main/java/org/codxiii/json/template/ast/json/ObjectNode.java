@@ -6,14 +6,14 @@ import org.codxiii.json.template.ast.JsonTemplateNodeType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObjectNode extends JsonTemplateNode<Map<String, JsonTemplateNode<?>>> {
-	public ObjectNode(Map<String, JsonTemplateNode<?>> value, String type, int start, int end) {
-		super(type, start, end);
+public class ObjectNode extends JsonTemplateNode<Map<TextNode, JsonTemplateNode<?>>> {
+	public ObjectNode(Map<TextNode, JsonTemplateNode<?>> value, int start, int end) {
+		super(start, end);
 		this.setValue(value);
 	}
 	
-	public ObjectNode(String type, int start, int end) {
-		this(new HashMap<>(), type, start, end);
+	public ObjectNode(int start, int end) {
+		this(new HashMap<>(), start, end);
 	}
 	
 	@Override
@@ -21,7 +21,7 @@ public class ObjectNode extends JsonTemplateNode<Map<String, JsonTemplateNode<?>
 		return JsonTemplateNodeType.OBJECT;
 	}
 	
-	public void put(String key, JsonTemplateNode<?> node) {
+	public void put(TextNode key, JsonTemplateNode<?> node) {
 		this.getValue().put(key, node);
 	}
 }

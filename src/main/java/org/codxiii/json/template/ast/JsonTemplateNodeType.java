@@ -8,5 +8,7 @@ public enum JsonTemplateNodeType {
 	OBJECT,
 	TEXT,
 	VAR,
+	
+	TEXT_INTERPOLATION,
 	;
 }
