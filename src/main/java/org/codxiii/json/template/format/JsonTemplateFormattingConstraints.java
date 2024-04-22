@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
+
 import static org.codxiii.json.template.format.JsonTemplateFormatter.SPACE;
 import static org.codxiii.json.template.format.JsonTemplateFormatter.TAB;
 
@@ -17,6 +19,7 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 	private int indentLevel;
 	private boolean notInObject;
 	private String lineSeparator;
+	
 	
 	public JsonTemplateFormattingConstraints(JsonTemplateFormatterConfig config) {
 		this.setUseTab(config.isUseTab());

@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
+import org.codxiii.json.template.ast.Renderable;
 import org.codxiii.json.template.ast.json.ArrayNode;
 import org.codxiii.json.template.ast.json.ObjectNode;
 import org.codxiii.json.template.ast.json.TextNode;
@@ -27,9 +28,11 @@ public class JsonTemplateFormatter {
 	
 	private JsonTemplateNode<?> root;
 	private final JsonTemplateFormatterConfig config;
+	private final Map<String, Object> binding;
 	
-	public JsonTemplateFormatter(JsonTemplateFormatterConfig config) {
+	public JsonTemplateFormatter(JsonTemplateFormatterConfig config, Map<String, Object> binding) {
 		this.config = config;
+		this.binding = binding;
 	}
 	
 	public void parse(String input) {
@@ -88,21 +91,22 @@ public class JsonTemplateFormatter {
 			}
 			sb.append(constraints.generateIndent()).append(RIGHT_BRACE);
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.VAR) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
-			sb.append(node.toRawString());
+			if (this.binding != null) {
+				sb.append(((Renderable) node).render(this.binding));
+			} else {
+				sb.append(node.toRawString());
+			}
 		} else {
 			sb.append(node.toRawString());
 		}
 	}
 	
-
-	
-	public static String format(String input, JsonTemplateFormatterConfig config) {
-		JsonTemplateFormatter formatter = new JsonTemplateFormatter(config);
+	public static String format(String input, Map<String, Object> binding, JsonTemplateFormatterConfig config) {
+		JsonTemplateFormatter formatter = new JsonTemplateFormatter(config, binding);
 		formatter.parse(input);
 		StringBuilder sb = new StringBuilder();
 		formatter.format(formatter.root, sb);
 		return sb.toString();
 	}
-	
 	
 }

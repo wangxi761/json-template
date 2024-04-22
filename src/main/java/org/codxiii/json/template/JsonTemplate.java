@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.commons.text.StringSubstitutor;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.format.JsonTemplateFormatter;
@@ -35,16 +34,14 @@ public class JsonTemplate {
 	}
 	
 	public String format(String source) {
-		return JsonTemplateFormatter.format(source, this.config);
+		return JsonTemplateFormatter.format(source, null, this.config);
 	}
 	
 	public String render(String source, Map<String, Object> variables) {
-		StringSubstitutor ss = new StringSubstitutor(variables);
-		String replaced = ss.replace(source);
-		if (!renderWithFormat) {
-			return replaced;
+		if (!this.renderWithFormat) {
+			config.setMinimize(true);
 		}
-		return format(replaced);
+		return JsonTemplateFormatter.format(source, variables, this.config);
 	}
 	
 	

@@ -45,6 +45,7 @@ class JsonTemplateTest {
 	@Test
 	void render_replacesVariablesInObjectWithoutFormat() {
 		JsonTemplate jsonTemplate = new JsonTemplate();
+		jsonTemplate.getConfig().setAllowTrailingComma(false);
 		jsonTemplate.setRenderWithFormat(false);
 		Map<String, Object> variables = new HashMap<>();
 		variables.put("name", "John");
