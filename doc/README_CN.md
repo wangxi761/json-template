@@ -1,23 +1,24 @@
-# JSON Template Syntax Library
+# JSON Template 语法库
 
-[中文版](doc/README_CN.md)
+[english](../README.md)
 
-## Introduction
+## 简介
 The `json-template` library extends the standard JSON format to include variable interpolation and optional trailing commas in objects and arrays. This format is ideal for dynamically generating configuration files, API responses, and other data structures that require flexibility and customization.
 
-## Features
+## 功能
 - **Optional Commas**: Allows an optional trailing comma at the end of lists and objects, facilitating easier modifications and extensions.
 - **Variable Interpolation**: Supports embedding variables directly into JSON using the `${var}` syntax, applicable both in keys and values.
 - **Flexibility**: Designed to cater to scenarios requiring customized JSON data outputs.
 
-## Syntax
+## 语法规则
 
-### Variable Interpolation
+### 变量插值
 
 Variable interpolation in the `json-template` library allows you to dynamically insert values into your JSON templates at both the value level and key level, enabling highly customizable JSON configurations.
 
-#### Interpolation Types
-- **TEXT Interpolation**:
+#### 插值类型
+
+- **文本插值**:
   Use the syntax `${variableName}` within string values to interpolate a variable. The parser will automatically replace `${variableName}` with the value of the variable at runtime.
 
   Example:
@@ -28,7 +29,7 @@ Variable interpolation in the `json-template` library allows you to dynamically 
   ```
   Here, `${username}` will be substituted with the actual user's name when the JSON is processed.
 
-- **Node Interpolation**:
+- **节点插值**:
   You can directly insert numeric or boolean values through interpolation, making the template dynamically responsive to numeric or logical data.
 
   Example:
