@@ -128,7 +128,7 @@ this is an example:
   "boolean": true,
   "null": null,
   "var": ${var},
-"text_interpolation${c}": "Hello, ${object}!",
+  "text_interpolation${c}": "Hello, ${object}!",
 }
 ```
 
