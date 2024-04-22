@@ -17,4 +17,22 @@ class JsonTemplateFormatterTest {
 		then(formatted).isNotEqualTo(expectedContent);
 	}
 	
+	
+	@Test
+	public void testAllowTrailComma() {
+		String originalContent = "{\"a\":1}";
+		JsonTemplate jsonTemplate = new JsonTemplate();
+		String formatted = jsonTemplate.format(originalContent);
+		String expected = TestUtil.getResourceFromClassPath("format/testAllowTrailComma_formatted.json");
+		then(formatted).isEqualTo(expected);
+	}
+	
+	@Test
+	public void testDoNotAllowTrailComma() {
+		String originalContent = "{\"a\":1}";
+		JsonTemplate jsonTemplate = new JsonTemplate().setConfig(JsonTemplateFormatter.createDefaultConfig().setAllow_trailing_comma(false));
+		String formatted = jsonTemplate.format(originalContent);
+		String expected = TestUtil.getResourceFromClassPath("format/testDoNotAllowTrailComma_formatted.json");
+		then(formatted).isEqualTo(expected);
+	}
 }

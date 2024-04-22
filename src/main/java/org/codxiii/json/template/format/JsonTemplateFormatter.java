@@ -59,6 +59,9 @@ public class JsonTemplateFormatter {
 				format(subNode, sb, subConstraints.setNotInObject(true));
 				sb.append(",").append(constraints.getLineSeparator());
 			}
+			if (!config.isAllow_trailing_comma()) {
+				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
+			}
 			sb.append(constraints.generateIndent()).append("]");
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.OBJECT)) {
 			sb.append("{");
@@ -74,6 +77,9 @@ public class JsonTemplateFormatter {
 				  .append(": ");
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
 				sb.append(",").append(constraints.getLineSeparator());
+			}
+			if (!config.isAllow_trailing_comma()) {
+				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
 			sb.append(constraints.generateIndent()).append("}");
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
@@ -94,7 +100,8 @@ public class JsonTemplateFormatter {
 	public static JsonTemplateFormatterConfig createDefaultConfig() {
 		return new JsonTemplateFormatterConfig()
 			.setTabSize(4)
-			.setUseTab(false);
+			.setUseTab(false)
+			.setAllow_trailing_comma(true);
 	}
 	
 }

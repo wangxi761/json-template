@@ -10,6 +10,7 @@ public class JsonTemplateFormattingConstraints {
 	private int indentLevel;
 	private boolean useTab;
 	private int tabSize;
+	private boolean trailingComma;
 	private boolean notInObject;
 	private String lineSeparator;
 	
@@ -20,6 +21,7 @@ public class JsonTemplateFormattingConstraints {
 		copy.setTabSize(getTabSize());
 		copy.setNotInObject(isNotInObject());
 		copy.setLineSeparator(getLineSeparator());
+		copy.setTrailingComma(isTrailingComma());
 		return copy;
 	}
 	
@@ -54,6 +56,7 @@ public class JsonTemplateFormattingConstraints {
 			constraints.setUseTab(config.isUseTab());
 			constraints.setTabSize(config.getTabSize());
 			constraints.setLineSeparator(System.lineSeparator());
+			constraints.setTrailingComma(config.isAllow_trailing_comma());
 		}
 		
 		public Builder indentLevel(int indentLevel) {
@@ -78,6 +81,11 @@ public class JsonTemplateFormattingConstraints {
 		
 		public Builder lineSeparator(String lineSeparator) {
 			constraints.setLineSeparator(lineSeparator);
+			return this;
+		}
+		
+		public Builder trailingComma(boolean trailingComma) {
+			constraints.setTrailingComma(trailingComma);
 			return this;
 		}
 		
