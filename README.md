@@ -79,7 +79,7 @@ Variable interpolation in the `json-template` library allows you to dynamically 
 #### Rules
 1. **Variable Scope**: Ensure that all variables are defined within the scope where the JSON template is processed, or are explicitly passed to the template processor.
 2. **Fallback Values**: You can specify default values for variables to handle cases where a variable might not be set.
-3. **Escaping**: Use escaping mechanisms defined by your library to include literal `${}` in your JSON without being processed as a variable.
+3. **Escaping**: Use escaping mechanisms defined by your library to include literal `\${}` in your JSON without being processed as a variable.
 
 #### Considerations
 - Variable names should be valid identifiers and should not conflict with JSON syntax or reserved keywords.
