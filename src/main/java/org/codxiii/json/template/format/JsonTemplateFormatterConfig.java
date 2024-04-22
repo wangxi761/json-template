@@ -8,4 +8,5 @@ import lombok.experimental.Accessors;
 public class JsonTemplateFormatterConfig {
 	private boolean useTab;
 	private int tabSize;
+	private boolean allow_trailing_comma;
 }
