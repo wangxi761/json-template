@@ -13,12 +13,14 @@ public class JsonTemplateFormatterConfig {
 	private boolean useTab;
 	private int tabSize;
 	private boolean allowTrailingComma;
+	private boolean minimize;
 	
 	public static JsonTemplateFormatterConfig createDefaultConfig() {
 		return new JsonTemplateFormatterConfig()
 			.setTabSize(4)
 			.setUseTab(false)
-			.setAllowTrailingComma(true);
+			.setAllowTrailingComma(true)
+			.setMinimize(false);
 	}
 	
 }

@@ -1,6 +1,5 @@
 package org.codxiii.json.template;
 
-import org.codxiii.json.template.format.JsonTemplateFormatter;
 import org.codxiii.json.template.format.JsonTemplateFormatterConfig;
 import org.codxiii.json.template.test.TestUtil;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,15 @@ class JsonTemplateFormatterTest {
 		JsonTemplate jsonTemplate = new JsonTemplate().setConfig(JsonTemplateFormatterConfig.createDefaultConfig().setAllowTrailingComma(false));
 		String formatted = jsonTemplate.format(originalContent);
 		String expected = TestUtil.getResourceFromClassPath("format/testDoNotAllowTrailComma_formatted.json");
+		then(formatted).isEqualTo(expected);
+	}
+	
+	@Test
+	public void testMinimize() {
+		String originalContent = TestUtil.getContentFromPath(TestUtil.getResourcePathFromClassPath("test.json"));
+		JsonTemplate jsonTemplate = new JsonTemplate().setConfig(JsonTemplateFormatterConfig.createDefaultConfig().setMinimize(true));
+		String formatted = jsonTemplate.format(originalContent);
+		String expected = TestUtil.getResourceFromClassPath("test_mini.json");
 		then(formatted).isEqualTo(expected);
 	}
 }

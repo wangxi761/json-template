@@ -25,6 +25,7 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 		this.setIndentLevel(0);
 		this.setNotInObject(false);
 		this.setLineSeparator(System.lineSeparator());
+		this.setMinimize(config.isMinimize());
 	}
 	
 	public JsonTemplateFormattingConstraints copy() {
@@ -35,6 +36,7 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 		copy.setNotInObject(isNotInObject());
 		copy.setLineSeparator(getLineSeparator());
 		copy.setAllowTrailingComma(isAllowTrailingComma());
+		copy.setMinimize(isMinimize());
 		return copy;
 	}
 	
@@ -48,6 +50,9 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 	}
 	
 	public String generateIndent(int additionalLevel) {
+		if (this.isMinimize()) {
+			return "";
+		}
 		int level = getIndentLevel() + additionalLevel;
 		if (isUseTab()) {
 			return TAB.repeat(level);
@@ -56,4 +61,10 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 		}
 	}
 	
+	public String getLineSeparator() {
+		if (this.isMinimize()) {
+			return "";
+		}
+		return lineSeparator;
+	}
 }
