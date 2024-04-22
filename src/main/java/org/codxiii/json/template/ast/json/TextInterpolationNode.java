@@ -4,13 +4,17 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
+import org.codxiii.json.template.ast.Renderable;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class TextInterpolationNode extends TextNode {
+public class TextInterpolationNode extends TextNode implements Renderable {
 	
 	private final List<JsonTemplateNode<?>> children;
 	
@@ -31,19 +35,28 @@ public class TextInterpolationNode extends TextNode {
 	
 	@Override
 	public String toRawString() {
-		StringBuilder sb = new StringBuilder();
-		for (JsonTemplateNode<?> child : children) {
-			if (child.getNodeType() == JsonTemplateNodeType.TEXT) {
-				sb.append(child.getValue());
-			} else {
-				sb.append(child.toRawString());
-			}
-		}
-		return "\"" + sb + "\"";
+		return buildString(VarNode::toRawString);
 	}
 	
 	@Override
 	public JsonTemplateNodeType getNodeType() {
 		return JsonTemplateNodeType.TEXT_INTERPOLATION;
+	}
+	
+	@Override
+	public String render(Map<String, Object> binding) {
+		return buildString(varNode -> varNode.render(binding));
+	}
+	
+	private String buildString(Function<VarNode, String> varNodeProcessor) {
+		StringBuilder sb = new StringBuilder();
+		for (JsonTemplateNode<?> child : children) {
+			if (child.getNodeType() == JsonTemplateNodeType.VAR) {
+				sb.append(varNodeProcessor.apply((VarNode) child));
+			} else {
+				sb.append(child.getValue());
+			}
+		}
+		return "\"" + sb + "\"";
 	}
 }

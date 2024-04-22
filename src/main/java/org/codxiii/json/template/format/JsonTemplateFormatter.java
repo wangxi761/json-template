@@ -87,7 +87,7 @@ public class JsonTemplateFormatter {
 				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
 			sb.append(constraints.generateIndent()).append(RIGHT_BRACE);
-		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
+		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.VAR) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
 			sb.append(node.toRawString());
 		} else {
 			sb.append(node.toRawString());
