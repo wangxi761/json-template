@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import static org.codxiii.json.template.format.JsonTemplateFormatter.SPACE;
+import static org.codxiii.json.template.format.JsonTemplateFormatter.TAB;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
@@ -40,7 +43,6 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 		return this;
 	}
 	
-	
 	public String generateIndent() {
 		return generateIndent(0);
 	}
@@ -48,9 +50,9 @@ public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConf
 	public String generateIndent(int additionalLevel) {
 		int level = getIndentLevel() + additionalLevel;
 		if (isUseTab()) {
-			return "\t".repeat(level);
+			return TAB.repeat(level);
 		} else {
-			return " ".repeat(level * getTabSize());
+			return SPACE.repeat(level * getTabSize());
 		}
 	}
 	

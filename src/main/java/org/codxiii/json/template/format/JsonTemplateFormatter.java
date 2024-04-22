@@ -15,16 +15,25 @@ import java.util.Map;
 import java.util.Objects;
 
 public class JsonTemplateFormatter {
-	private JsonTemplateParser parser;
+	
+	public static final String LEFT_BRACE = "{";
+	public static final String RIGHT_BRACE = "}";
+	public static final String LEFT_BRACKET = "[";
+	public static final String RIGHT_BRACKET = "]";
+	public static final String COMMA = ",";
+	public static final String COLON = ":";
+	public static final String SPACE = " ";
+	public static final String TAB = "\t";
+	
 	private JsonTemplateNode<?> root;
-	private JsonTemplateFormatterConfig config;
+	private final JsonTemplateFormatterConfig config;
 	
 	public JsonTemplateFormatter(JsonTemplateFormatterConfig config) {
 		this.config = config;
 	}
 	
 	public void parse(String input) {
-		parser = new JsonTemplateParser(new CommonTokenStream(new JsonTemplateLexer(CharStreams.fromString(input))));
+		JsonTemplateParser parser = new JsonTemplateParser(new CommonTokenStream(new JsonTemplateLexer(CharStreams.fromString(input))));
 		JsonTemplateParser.Json_templateContext rootContext = parser.json_template();
 		JsonTemplateAntlrVisitor visitor = new JsonTemplateAntlrVisitor();
 		root = visitor.visit(rootContext);
@@ -44,46 +53,48 @@ public class JsonTemplateFormatter {
 		
 		JsonTemplateFormattingConstraints subConstraints = constraints.copy().addIndentLevel();
 		if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.ARRAY)) {
-			sb.append("[");
+			sb.append(LEFT_BRACKET);
 			ArrayNode arrayNode = node.toArrayNode();
 			if (arrayNode.isEmpty()) {
-				sb.append("]");
+				sb.append(RIGHT_BRACKET);
 				return;
 			}
 			sb.append(constraints.getLineSeparator());
 			for (JsonTemplateNode<?> subNode : arrayNode) {
 				format(subNode, sb, subConstraints.setNotInObject(true));
-				sb.append(",").append(constraints.getLineSeparator());
+				sb.append(COMMA).append(constraints.getLineSeparator());
 			}
 			if (!config.isAllowTrailingComma()) {
 				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
-			sb.append(constraints.generateIndent()).append("]");
+			sb.append(constraints.generateIndent()).append(RIGHT_BRACKET);
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.OBJECT)) {
-			sb.append("{");
+			sb.append(LEFT_BRACE);
 			ObjectNode objectNode = node.toObjectNode();
 			if (objectNode.isEmpty()) {
-				sb.append("}");
+				sb.append(RIGHT_BRACE);
 				return;
 			}
 			sb.append(constraints.getLineSeparator());
 			for (Map.Entry<TextNode, JsonTemplateNode<?>> entry : objectNode) {
 				sb.append(constraints.generateIndent(1))
 				  .append(entry.getKey().toRawString())
-				  .append(": ");
+				  .append(COLON).append(SPACE);
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
-				sb.append(",").append(constraints.getLineSeparator());
+				sb.append(COMMA).append(constraints.getLineSeparator());
 			}
 			if (!config.isAllowTrailingComma()) {
 				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
-			sb.append(constraints.generateIndent()).append("}");
+			sb.append(constraints.generateIndent()).append(RIGHT_BRACE);
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
 			sb.append(node.toRawString());
 		} else {
 			sb.append(node.toRawString());
 		}
 	}
+	
+
 	
 	public static String format(String input, JsonTemplateFormatterConfig config) {
 		JsonTemplateFormatter formatter = new JsonTemplateFormatter(config);
@@ -92,5 +103,6 @@ public class JsonTemplateFormatter {
 		formatter.format(formatter.root, sb);
 		return sb.toString();
 	}
+	
 	
 }
