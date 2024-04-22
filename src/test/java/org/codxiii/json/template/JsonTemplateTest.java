@@ -52,4 +52,14 @@ class JsonTemplateTest {
 		String result = jsonTemplate.render(source, variables);
 		then(result).isEqualTo("{\"name\": \"John\"}");
 	}
+	
+	@Test
+	void format_formatsJsonWithZeroTabSize() {
+		JsonTemplate template = new JsonTemplate();
+		template.getConfig().setTabSize(0);
+		String source = "{\"name\": \"John\", \"age\": 30}";
+		String expected = TestUtil.getResourceFromClassPath("format/test_formatsJsonWithZeroTabSize_formatted.json");
+		String result = template.format(source);
+		then(result).isEqualTo(expected);
+	}
 }
