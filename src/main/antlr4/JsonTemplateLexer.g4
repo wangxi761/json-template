@@ -1,5 +1,18 @@
 lexer grammar JsonTemplateLexer;
 
+QUESTION_DOT: '?.';
+DOT: '.';
+DOUBLE_COLON: '::';
+DOUBLE_QUESTION: '??';
+NUMBER_TYPE: 'number';
+STRING_TYPE: 'string';
+BOOL_TYPE: 'bool';
+ARRAY_TYPE: 'array';
+OBJECT_TYPE: 'object';
+EMPTY_OBJECT: '{}';
+EMPTY_ARRAY: '[]';
+
+
 DQUOTE: '"' -> pushMode(IN_STRING);
 FALSE: 'false';
 TRUE: 'true';
