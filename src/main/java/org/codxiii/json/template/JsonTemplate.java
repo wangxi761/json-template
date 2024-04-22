@@ -23,7 +23,7 @@ public class JsonTemplate {
 	private boolean renderWithFormat;
 	
 	public JsonTemplate() {
-		this.config = JsonTemplateFormatter.createDefaultConfig();
+		this.config = JsonTemplateFormatterConfig.createDefaultConfig();
 		this.renderWithFormat = true;
 	}
 	

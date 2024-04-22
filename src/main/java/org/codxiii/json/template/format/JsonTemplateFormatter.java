@@ -1,6 +1,5 @@
 package org.codxiii.json.template.format;
 
-import lombok.SneakyThrows;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
@@ -12,9 +11,6 @@ import org.codxiii.json.template.ast.json.TextNode;
 import org.codxiii.json.template.parser.JsonTemplateLexer;
 import org.codxiii.json.template.parser.JsonTemplateParser;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,7 +31,7 @@ public class JsonTemplateFormatter {
 	}
 	
 	public void format(JsonTemplateNode<?> node, StringBuilder sb) {
-		format(node, sb, new JsonTemplateFormattingConstraints.Builder(config).build());
+		format(node, sb, new JsonTemplateFormattingConstraints(config));
 	}
 	
 	private void format(JsonTemplateNode<?> node, StringBuilder sb, JsonTemplateFormattingConstraints constraints) {
@@ -59,7 +55,7 @@ public class JsonTemplateFormatter {
 				format(subNode, sb, subConstraints.setNotInObject(true));
 				sb.append(",").append(constraints.getLineSeparator());
 			}
-			if (!config.isAllow_trailing_comma()) {
+			if (!config.isAllowTrailingComma()) {
 				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
 			sb.append(constraints.generateIndent()).append("]");
@@ -78,7 +74,7 @@ public class JsonTemplateFormatter {
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
 				sb.append(",").append(constraints.getLineSeparator());
 			}
-			if (!config.isAllow_trailing_comma()) {
+			if (!config.isAllowTrailingComma()) {
 				sb.deleteCharAt(sb.length() - constraints.getLineSeparator().length() - 1);
 			}
 			sb.append(constraints.generateIndent()).append("}");
@@ -95,13 +91,6 @@ public class JsonTemplateFormatter {
 		StringBuilder sb = new StringBuilder();
 		formatter.format(formatter.root, sb);
 		return sb.toString();
-	}
-	
-	public static JsonTemplateFormatterConfig createDefaultConfig() {
-		return new JsonTemplateFormatterConfig()
-			.setTabSize(4)
-			.setUseTab(false)
-			.setAllow_trailing_comma(true);
 	}
 	
 }

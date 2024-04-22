@@ -1,18 +1,28 @@
 package org.codxiii.json.template.format;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class JsonTemplateFormattingConstraints {
+@NoArgsConstructor
+public class JsonTemplateFormattingConstraints extends JsonTemplateFormatterConfig {
 	
 	private int indentLevel;
-	private boolean useTab;
-	private int tabSize;
-	private boolean trailingComma;
 	private boolean notInObject;
 	private String lineSeparator;
+	
+	public JsonTemplateFormattingConstraints(JsonTemplateFormatterConfig config) {
+		this.setUseTab(config.isUseTab());
+		this.setTabSize(config.getTabSize());
+		this.setAllowTrailingComma(config.isAllowTrailingComma());
+		this.setIndentLevel(0);
+		this.setNotInObject(false);
+		this.setLineSeparator(System.lineSeparator());
+	}
 	
 	public JsonTemplateFormattingConstraints copy() {
 		JsonTemplateFormattingConstraints copy = new JsonTemplateFormattingConstraints();
@@ -21,7 +31,7 @@ public class JsonTemplateFormattingConstraints {
 		copy.setTabSize(getTabSize());
 		copy.setNotInObject(isNotInObject());
 		copy.setLineSeparator(getLineSeparator());
-		copy.setTrailingComma(isTrailingComma());
+		copy.setAllowTrailingComma(isAllowTrailingComma());
 		return copy;
 	}
 	
@@ -44,53 +54,4 @@ public class JsonTemplateFormattingConstraints {
 		}
 	}
 	
-	public static class Builder {
-		private JsonTemplateFormattingConstraints constraints;
-		
-		public Builder() {
-			constraints = new JsonTemplateFormattingConstraints();
-		}
-		
-		public Builder(JsonTemplateFormatterConfig config) {
-			constraints = new JsonTemplateFormattingConstraints();
-			constraints.setUseTab(config.isUseTab());
-			constraints.setTabSize(config.getTabSize());
-			constraints.setLineSeparator(System.lineSeparator());
-			constraints.setTrailingComma(config.isAllow_trailing_comma());
-		}
-		
-		public Builder indentLevel(int indentLevel) {
-			constraints.setIndentLevel(indentLevel);
-			return this;
-		}
-		
-		public Builder useTab(boolean useTab) {
-			constraints.setUseTab(useTab);
-			return this;
-		}
-		
-		public Builder tabSize(int tabSize) {
-			constraints.setTabSize(tabSize);
-			return this;
-		}
-		
-		public Builder notInObject(boolean notInObject) {
-			constraints.setNotInObject(notInObject);
-			return this;
-		}
-		
-		public Builder lineSeparator(String lineSeparator) {
-			constraints.setLineSeparator(lineSeparator);
-			return this;
-		}
-		
-		public Builder trailingComma(boolean trailingComma) {
-			constraints.setTrailingComma(trailingComma);
-			return this;
-		}
-		
-		public JsonTemplateFormattingConstraints build() {
-			return constraints;
-		}
-	}
 }
