@@ -1,20 +1,27 @@
 # JSON Template 语法库
+![Static Badge](https://img.shields.io/badge/language-json--template-8A2BE2)
+![Static Badge](https://img.shields.io/badge/type--safe-8A2BE2)
+![Static Badge](https://img.shields.io/badge/flexible-8A2BE2)
+![Static Badge](https://img.shields.io/badge/convenience-8A2BE2)
 
 [english](../README.md)
 
 ## 简介
-The `json-template` library extends the standard JSON format to include variable interpolation and optional trailing commas in objects and arrays. This format is ideal for dynamically generating configuration files, API responses, and other data structures that require flexibility and customization.
+`json-template`库扩展了标准JSON格式，包括了变量插值和在对象与数组末尾使用可选逗号。
+这种格式非常适合动态生成配置文件、API响应以及其他需要灵活性和定制化的数据结构。
+
 
 ## 功能
-- **Optional Commas**: Allows an optional trailing comma at the end of lists and objects, facilitating easier modifications and extensions.
-- **Variable Interpolation**: Supports embedding variables directly into JSON using the `${var}` syntax, applicable both in keys and values.
-- **Flexibility**: Designed to cater to scenarios requiring customized JSON data outputs.
+- **变量插值**: 支持使用`${var}`语法直接在JSON中嵌入变量，适用于键和值
+- **类型安全**: 通过在插值变量上强制类型规范，增强了JSON模板的可靠性。有助于防止常见的数据类型错误
+- **空值增强**: 允许使用可选链`?.`和空值合并`??`操作符更有效地处理空值
+- **可选逗号**: 允许在列表和对象的末尾使用可选逗号，便于更容易地进行修改和扩展
 
 ## 语法规则
 
 ### 变量插值
 
-Variable interpolation in the `json-template` library allows you to dynamically insert values into your JSON templates at both the value level and key level, enabling highly customizable JSON configurations.
+`json-template`库允许您在JSON模板的值层和键层动态插入值，实现高度可定制的JSON配置。
 
 #### 插值类型
 
@@ -41,20 +48,18 @@ Variable interpolation in the `json-template` library allows you to dynamically 
   ```
   In this case, `${age}` will be replaced by the numerical value assigned to `age`.
 
-#### Rules
+#### 规则
 1. **Variable Scope**: Ensure that all variables are defined within the scope where the JSON template is processed, or are explicitly passed to the template processor.
 2. **Fallback Values**: You can specify default values for variables to handle cases where a variable might not be set.
 3. **Escaping**: Use escaping mechanisms defined by your library to include literal `\${}` in your JSON without being processed as a variable.
 
-#### Considerations
+#### 注意事项
 - Variable names should be valid identifiers and should not conflict with JSON syntax or reserved keywords.
 - Carefully handle user-provided variable values to avoid unintended modifications to the JSON structure, particularly in security-sensitive contexts.
-
-#### Usage Tips
 - Maintain clear and descriptive variable naming to ensure the readability and maintainability of your JSON templates.
 - Leverage the full power of your library's features by combining node and variable interpolation for dynamic JSON generation.
 
-### Formatting
+### 代码格式化
 
 ```java
 JsonTemplate jsonTemplate = new JsonTemplate();
@@ -97,7 +102,7 @@ this is an example:
 }
 ```
 
-## Contributing
+## 贡献
 Contributions are welcome! Feel free to submit Pull Requests or open Issues to suggest new features or report bugs. Please make sure to follow the contributing guidelines.
 
 
