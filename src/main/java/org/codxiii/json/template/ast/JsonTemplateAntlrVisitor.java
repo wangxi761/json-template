@@ -1,6 +1,7 @@
 package org.codxiii.json.template.ast;
 
 
+import org.codxiii.json.template.ast.expr.InterpolExpr;
 import org.codxiii.json.template.ast.json.*;
 import org.codxiii.json.template.parser.JsonTemplateParserBaseVisitor;
 
@@ -73,7 +74,8 @@ public class JsonTemplateAntlrVisitor extends JsonTemplateParserBaseVisitor<Json
 	
 	@Override
 	public JsonTemplateNode<?> visitVar(VarContext ctx) {
-		return new VarNode(ctx.VARNAME().getText(), ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
+		InterpolExpr interpolExpr = InterpolExpr.toInterpolExpr(ctx.interpolExpr());
+		return new VarNode(interpolExpr, ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
 	}
 	
 	@Override

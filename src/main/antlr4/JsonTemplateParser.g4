@@ -62,7 +62,7 @@ null
     ;
 
 interpolExpr
-    : VARNAME accessors? nullCoalescingOp? typeSpec?
+    : VARNAME accessors* nullCoalescingOp? typeSpec?
     ;
 
 accessors
@@ -70,17 +70,7 @@ accessors
     ;
 
 nullCoalescingOp
-    : DOUBLE_QUESTION defaultValue
-    ;
-
-defaultValue
-    : TEXT
-    | NUMBER
-    | TRUE
-    | FALSE
-    | NULL
-    | EMPTY_ARRAY
-    | EMPTY_OBJECT
+    : DOUBLE_QUESTION TEXT
     ;
 
 typeSpec

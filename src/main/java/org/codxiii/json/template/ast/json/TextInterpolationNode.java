@@ -4,17 +4,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.ast.Renderable;
+import org.codxiii.json.template.ast.IRender;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class TextInterpolationNode extends TextNode implements Renderable {
+public class TextInterpolationNode extends TextNode implements IRender {
 	
 	private final List<JsonTemplateNode<?>> children;
 	

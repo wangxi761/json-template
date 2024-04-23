@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.ast.Renderable;
+import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.json.ArrayNode;
 import org.codxiii.json.template.ast.json.ObjectNode;
 import org.codxiii.json.template.ast.json.TextNode;
@@ -92,7 +92,7 @@ public class JsonTemplateFormatter {
 			sb.append(constraints.generateIndent()).append(RIGHT_BRACE);
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.VAR) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
 			if (this.binding != null) {
-				sb.append(((Renderable) node).render(this.binding));
+				sb.append(((IRender) node).render(this.binding));
 			} else {
 				sb.append(node.toRawString());
 			}
