@@ -2,6 +2,7 @@ package org.codxiii.json.template.ast.expr;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.IString;
@@ -98,7 +99,8 @@ public class InterpolExpr implements IRender, IString {
 		
 		JsonTemplateParser.NullCoalescingOpContext nullCoalescingOpContext = ctx.nullCoalescingOp();
 		if (nullCoalescingOpContext != null) {
-			interpolExpr.setDefaultValue(nullCoalescingOpContext.TEXT().getText());
+			TerminalNode text = nullCoalescingOpContext.TEXT();
+			interpolExpr.setDefaultValue(text == null ? "" : text.getText());
 		}
 		
 		JsonTemplateParser.TypeSpecContext typeSpecContext = ctx.typeSpec();
