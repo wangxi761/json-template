@@ -80,9 +80,9 @@ public class JsonTemplateFormatter {
 			}
 			sb.append(constraints.getLineSeparator());
 			for (Map.Entry<TextNode, JsonTemplateNode<?>> entry : objectNode) {
-				sb.append(constraints.generateIndent(1))
-				  .append(entry.getKey().toRawString())
-				  .append(COLON).append(SPACE);
+				sb.append(constraints.generateIndent(1));
+				format(entry.getKey(), sb, subConstraints.setNotInObject(false));
+				sb.append(COLON).append(SPACE);
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
 				sb.append(COMMA).append(constraints.getLineSeparator());
 			}

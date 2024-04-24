@@ -51,16 +51,15 @@ string_content
 num
     : NUMBER
     ;
-var
-    : VAR_START interpolExpr RIGHT_BRACE
-    ;
 bool
     : TRUE | FALSE
     ;
 null
     : NULL
     ;
-
+var
+    : VAR_START interpolExpr RIGHT_BRACE
+    ;
 interpolExpr
     : VARNAME accessors* nullCoalescingOp? typeSpec?
     ;
@@ -72,7 +71,6 @@ accessors
 nullCoalescingOp
     : DOUBLE_QUESTION TEXT?
     ;
-
 typeSpec
     : DOUBLE_COLON type
     ;

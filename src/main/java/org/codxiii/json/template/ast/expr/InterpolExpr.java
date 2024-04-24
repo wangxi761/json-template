@@ -2,12 +2,10 @@ package org.codxiii.json.template.ast.expr;
 
 import lombok.Data;
 import lombok.SneakyThrows;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.IString;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.ast.IRender;
-import org.codxiii.json.template.ast.json.TextNode;
 import org.codxiii.json.template.parser.JsonTemplateParser;
 
 import java.util.ArrayList;
@@ -42,14 +40,16 @@ public class InterpolExpr implements IRender, IString {
 			if (hasKey) {
 				value = obj;
 			}
-		}else {
+		} else {
 			hasKey = false;
 		}
 		
 		if (!hasKey && defaultValue != null) {
 			value = defaultValue;
 		}
-		
+		//TODO:
+		//    1. Add support for type conversion
+		//    2. json serialization
 		return value.toString();
 	}
 	
@@ -81,7 +81,7 @@ public class InterpolExpr implements IRender, IString {
 			sb.append("::");
 			sb.append(nodeType.name().toLowerCase());
 		}
-		return sb.toString();
+		return "${" + sb + "}";
 	}
 	
 	public static InterpolExpr toInterpolExpr(JsonTemplateParser.InterpolExprContext ctx) {
@@ -103,7 +103,7 @@ public class InterpolExpr implements IRender, IString {
 		
 		JsonTemplateParser.TypeSpecContext typeSpecContext = ctx.typeSpec();
 		if (typeSpecContext != null) {
-			String type = typeSpecContext.getText().toUpperCase();
+			String type = typeSpecContext.type().getText().toUpperCase();
 			if (type.equals("STRING")) {
 				type = "TEXT";
 			}

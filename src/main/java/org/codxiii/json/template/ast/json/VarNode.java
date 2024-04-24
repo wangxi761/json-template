@@ -15,10 +15,13 @@ public class VarNode extends JsonTemplateNode<String> implements IRender {
 	
 	private InterpolExpr interpolExpr;
 	
-	public VarNode(InterpolExpr expr, int start, int end) {
+	private boolean isNode;
+	
+	public VarNode(InterpolExpr expr, boolean isNode, int start, int end) {
 		super(start, end);
 		this.setValue(expr.getVariableName());
 		this.interpolExpr = expr;
+		this.isNode = isNode;
 	}
 	
 	@Override
@@ -34,9 +37,6 @@ public class VarNode extends JsonTemplateNode<String> implements IRender {
 	
 	@Override
 	public String render(Map<String, Object> binding) {
-		if (!binding.containsKey(this.getValue())) {
-			return this.toRawString();
-		}
-		return binding.get(this.getValue()).toString();
+		return interpolExpr.render(binding);
 	}
 }
