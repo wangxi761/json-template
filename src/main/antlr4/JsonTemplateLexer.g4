@@ -1,18 +1,5 @@
 lexer grammar JsonTemplateLexer;
 
-QUESTION_DOT: '?.';
-DOT: '.';
-DOUBLE_COLON: '::';
-DOUBLE_QUESTION: '??';
-NUMBER_TYPE: 'number';
-STRING_TYPE: 'string';
-BOOL_TYPE: 'bool';
-ARRAY_TYPE: 'array';
-OBJECT_TYPE: 'object';
-EMPTY_OBJECT: '{}';
-EMPTY_ARRAY: '[]';
-
-
 DQUOTE: '"' -> pushMode(IN_STRING);
 FALSE: 'false';
 TRUE: 'true';
@@ -38,5 +25,18 @@ TEXT: (ESC | SAFECODEPOINT)+;
 VAR_START_IN_STRING: VAR_START -> type(VAR_START),pushMode(EMEBDDED_VAR);
 DQUOTE_IN_STRING: DQUOTE -> type(DQUOTE), popMode;
 mode EMEBDDED_VAR;
+QUESTION_DOT: '?.';
+DOT: '.';
+DOUBLE_COLON: '::' -> pushMode(EMEBDDED_TYPE);
+DOUBLE_QUESTION: '??';
 VARNAME_IN_STRING: VARNAME -> type(VARNAME);
 RIGHT_BRACE_IN_STRING: RIGHT_BRACE -> type(RIGHT_BRACE), popMode;
+mode EMEBDDED_TYPE;
+NUMBER_TYPE: 'number';
+STRING_TYPE: 'string';
+BOOL_TYPE: 'bool';
+ARRAY_TYPE: 'array';
+OBJECT_TYPE: 'object';
+TEXT_TYPE: 'text';
+NULL_TYPE: 'null' -> type(NULL);
+RIGHT_BRACE_EMEBDDED: RIGHT_BRACE -> type(RIGHT_BRACE), popMode ,popMode;

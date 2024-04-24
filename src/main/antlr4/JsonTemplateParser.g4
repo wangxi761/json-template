@@ -70,7 +70,7 @@ accessors
     ;
 
 nullCoalescingOp
-    : DOUBLE_QUESTION TEXT
+    : DOUBLE_QUESTION TEXT?
     ;
 
 typeSpec
@@ -81,9 +81,10 @@ type
     : NUMBER_TYPE
     | BOOL_TYPE
     | STRING_TYPE
-    | NULL
     | ARRAY_TYPE
     | OBJECT_TYPE
+    | TEXT_TYPE
+    | NULL
     ;
 
 

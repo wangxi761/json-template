@@ -1,9 +1,13 @@
 package org.codxiii.json.template.ast.expr;
 
 import lombok.Data;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.codxiii.json.template.ast.IString;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
 import org.codxiii.json.template.ast.IRender;
+import org.codxiii.json.template.ast.json.TextNode;
 import org.codxiii.json.template.parser.JsonTemplateParser;
 
 import java.util.ArrayList;
@@ -21,8 +25,45 @@ public class InterpolExpr implements IRender, IString {
 	
 	@Override
 	public String render(Map<String, Object> binding) {
+		Object value = this.toRawString();
+		
 		JsonTemplateNodeType type = Optional.ofNullable(nodeType).orElse(JsonTemplateNodeType.TEXT);
-		return "";
+		boolean hasKey = true;
+		if (binding.containsKey(variableName)) {
+			Object obj = binding.get(variableName);
+			for (AccessorExpr accessor : accessors) {
+				try {
+					obj = getProperty(obj, accessor.getVariableName(), accessor.isNullSafety());
+				} catch (Exception e) {
+					hasKey = false;
+					break;
+				}
+			}
+			if (hasKey) {
+				value = obj;
+			}
+		}else {
+			hasKey = false;
+		}
+		
+		if (!hasKey && defaultValue != null) {
+			value = defaultValue;
+		}
+		
+		return value.toString();
+	}
+	
+	
+	@SneakyThrows
+	private Object getProperty(Object obj, String key, boolean nullable) {
+		if (obj == null) {
+			if (nullable) {
+				return null;
+			}
+			throw new NoPropertyKeyException(key);
+		}
+		return PropertyUtils.getProperty(obj, key);
+		
 	}
 	
 	public String toRawString() {
