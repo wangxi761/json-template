@@ -3,7 +3,6 @@ package org.codxiii.json.template.ast.expr;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.IString;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
@@ -23,6 +22,7 @@ public class InterpolExpr implements IRender, IString {
 	private JsonTemplateNodeType nodeType;
 	
 	@Override
+	@SneakyThrows
 	public String render(Map<String, Object> binding) {
 		Object value = this.toRawString();
 		
@@ -31,12 +31,15 @@ public class InterpolExpr implements IRender, IString {
 		if (binding.containsKey(variableName)) {
 			Object obj = binding.get(variableName);
 			for (AccessorExpr accessor : accessors) {
-				try {
-					obj = getProperty(obj, accessor.getVariableName(), accessor.isNullSafety());
-				} catch (Exception e) {
-					hasKey = false;
-					break;
+				if (obj == null) {
+					if (accessor.isNullSafety()) {
+						hasKey = false;
+						break;
+					} else {
+						throw new NoSuchFieldException(String.format("No such field %s", accessor.getVariableName()));
+					}
 				}
+				// TODO: get value from object
 			}
 			if (hasKey) {
 				value = obj;
@@ -54,18 +57,6 @@ public class InterpolExpr implements IRender, IString {
 		return value.toString();
 	}
 	
-	
-	@SneakyThrows
-	private Object getProperty(Object obj, String key, boolean nullable) {
-		if (obj == null) {
-			if (nullable) {
-				return null;
-			}
-			throw new NoPropertyKeyException(key);
-		}
-		return PropertyUtils.getProperty(obj, key);
-		
-	}
 	
 	public String toRawString() {
 		StringBuilder sb = new StringBuilder();
