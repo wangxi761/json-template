@@ -31,7 +31,7 @@ public class VarNode extends JsonTemplateNode<String> implements IRender {
 	
 	@Override
 	public String toRawString() {
-		return "${" + interpolExpr.toRawString() + "}";
+		return interpolExpr.toRawString();
 	}
 	
 	
