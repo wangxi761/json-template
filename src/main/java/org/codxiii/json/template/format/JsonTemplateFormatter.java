@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.codxiii.json.template.ast.JsonTemplateAntlrVisitor;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.ast.Renderable;
+import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.json.ArrayNode;
 import org.codxiii.json.template.ast.json.ObjectNode;
 import org.codxiii.json.template.ast.json.TextNode;
@@ -80,9 +80,9 @@ public class JsonTemplateFormatter {
 			}
 			sb.append(constraints.getLineSeparator());
 			for (Map.Entry<TextNode, JsonTemplateNode<?>> entry : objectNode) {
-				sb.append(constraints.generateIndent(1))
-				  .append(entry.getKey().toRawString())
-				  .append(COLON).append(SPACE);
+				sb.append(constraints.generateIndent(1));
+				format(entry.getKey(), sb, subConstraints.setNotInObject(false));
+				sb.append(COLON).append(SPACE);
 				format(entry.getValue(), sb, subConstraints.setNotInObject(false));
 				sb.append(COMMA).append(constraints.getLineSeparator());
 			}
@@ -92,7 +92,7 @@ public class JsonTemplateFormatter {
 			sb.append(constraints.generateIndent()).append(RIGHT_BRACE);
 		} else if (Objects.equals(node.getNodeType(), JsonTemplateNodeType.VAR) || Objects.equals(node.getNodeType(), JsonTemplateNodeType.TEXT_INTERPOLATION)) {
 			if (this.binding != null) {
-				sb.append(((Renderable) node).render(this.binding));
+				sb.append(((IRender) node).render(this.binding));
 			} else {
 				sb.append(node.toRawString());
 			}

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class BaseNode {
+public abstract class BaseNode implements IString{
 	private String type;
 	private int start;
 	private int end;

@@ -1,16 +1,24 @@
 package org.codxiii.json.template.ast.json;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.codxiii.json.template.ast.JsonTemplateNode;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
-import org.codxiii.json.template.ast.Renderable;
+import org.codxiii.json.template.ast.IRender;
+import org.codxiii.json.template.ast.expr.InterpolExpr;
 
 import java.util.Map;
 
-public class VarNode extends JsonTemplateNode<String> implements Renderable {
+@Getter
+@Setter
+public class VarNode extends JsonTemplateNode<String> implements IRender {
 	
-	public VarNode(String variableName, int start, int end) {
+	private InterpolExpr interpolExpr;
+	
+	public VarNode(InterpolExpr expr, int start, int end) {
 		super(start, end);
-		this.setValue(variableName);
+		this.setValue(expr.getVariableName());
+		this.interpolExpr = expr;
 	}
 	
 	@Override
@@ -20,15 +28,12 @@ public class VarNode extends JsonTemplateNode<String> implements Renderable {
 	
 	@Override
 	public String toRawString() {
-		return "${" + super.toRawString() + "}";
+		return interpolExpr.toRawString();
 	}
 	
 	
 	@Override
 	public String render(Map<String, Object> binding) {
-		if (!binding.containsKey(this.getValue())) {
-			return this.toRawString();
-		}
-		return binding.get(this.getValue()).toString();
+		return interpolExpr.render(binding);
 	}
 }

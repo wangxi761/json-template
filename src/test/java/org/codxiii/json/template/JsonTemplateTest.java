@@ -1,13 +1,18 @@
 package org.codxiii.json.template;
 
 import org.assertj.core.api.BDDAssertions;
+import org.codxiii.json.template.ast.JsonTemplateNode;
+import org.codxiii.json.template.ast.json.ObjectNode;
+import org.codxiii.json.template.ast.json.TextNode;
 import org.codxiii.json.template.test.TestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 
 
 class JsonTemplateTest {
@@ -62,5 +67,30 @@ class JsonTemplateTest {
 		String expected = TestUtil.getResourceFromClassPath("format/test_formatsJsonWithZeroTabSize_formatted.json");
 		String result = template.format(source);
 		then(result).isEqualTo(expected);
+	}
+	
+	@Test
+	public void testParseClassic() {
+		JsonTemplate template = new JsonTemplate();
+		JsonTemplateNode node = template.parse(TestUtil.getResourceFromClassPath("parse/classic.jt"));
+		then(node).asInstanceOf(type(ObjectNode.class))
+		          .hasFieldOrProperty("value");
+	}
+	
+	@Test
+	public void testRenderClassic() {
+		JsonTemplate template = new JsonTemplate();
+		Map<String, Object> binding = new HashMap<>();
+		binding.put("name", "John");
+		binding.put("external_description", "This is a description");
+		binding.put("version", 30);
+		binding.put("status", "active");
+		binding.put("info", new LinkedHashMap<String, Object>() {{
+			put("name", "John");
+			put("age", 30);
+			put("loc","USA");
+		}});
+		String result = template.render(TestUtil.getResourceFromClassPath("parse/classic.jt"), binding);
+		then(result).isEqualTo(TestUtil.getResourceFromClassPath("parse/classic_render.jt"));
 	}
 }

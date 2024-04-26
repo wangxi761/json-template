@@ -18,6 +18,7 @@ public abstract class JsonTemplateNode<T> extends BaseNode {
 	
 	public abstract JsonTemplateNodeType getNodeType();
 	
+	@Override
 	public String toRawString() {
 		return getValue().toString();
 	}

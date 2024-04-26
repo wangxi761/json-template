@@ -29,7 +29,7 @@ pair
     : str COLON value
     ;
 arr
-    : SQUARE_LEFT value (COMMA value)* SQUARE_RIGHT
+    : SQUARE_LEFT value (COMMA value)* COMMA? SQUARE_RIGHT
     | SQUARE_LEFT SQUARE_RIGHT
     ;
 value
@@ -51,16 +51,39 @@ string_content
 num
     : NUMBER
     ;
-var
-    : VAR_START VARNAME RIGHT_BRACE
-    ;
 bool
     : TRUE | FALSE
     ;
 null
     : NULL
     ;
+var
+    : VAR_START interpolExpr RIGHT_BRACE
+    ;
+interpolExpr
+    : VARNAME accessors* nullCoalescingOp? typeSpec?
+    ;
 
+accessors
+    : (QUESTION_DOT | DOT) VARNAME
+    ;
+
+nullCoalescingOp
+    : DOUBLE_QUESTION TEXT?
+    ;
+typeSpec
+    : DOUBLE_COLON type
+    ;
+
+type
+    : NUMBER_TYPE
+    | BOOL_TYPE
+    | STRING_TYPE
+    | ARRAY_TYPE
+    | OBJECT_TYPE
+    | TEXT_TYPE
+    | NULL
+    ;
 
 
 
