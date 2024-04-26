@@ -15,13 +15,10 @@ public class VarNode extends JsonTemplateNode<String> implements IRender {
 	
 	private InterpolExpr interpolExpr;
 	
-	private boolean isNode;
-	
-	public VarNode(InterpolExpr expr, boolean isNode, int start, int end) {
+	public VarNode(InterpolExpr expr, int start, int end) {
 		super(start, end);
 		this.setValue(expr.getVariableName());
 		this.interpolExpr = expr;
-		this.isNode = isNode;
 	}
 	
 	@Override
