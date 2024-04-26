@@ -7,6 +7,7 @@ import org.codxiii.json.template.ast.IRender;
 import org.codxiii.json.template.ast.IString;
 import org.codxiii.json.template.ast.JsonTemplateNodeType;
 import org.codxiii.json.template.parser.JsonTemplateParser;
+import org.codxiii.json.template.util.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,10 @@ public class InterpolExpr implements IRender, IString {
 						hasKey = false;
 						break;
 					} else {
-						throw new NoSuchFieldException(String.format("No such field %s", accessor.getVariableName()));
+						throw new NoSuchFieldException(String.format("No accessible field/method %s", accessor.getVariableName()));
 					}
 				}
-				// TODO: get value from object
+				obj = BeanUtils.getProperty(obj, accessor.getVariableName());
 			}
 			if (hasKey) {
 				value = obj;
