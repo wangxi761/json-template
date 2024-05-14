@@ -3,6 +3,6 @@
     "description": "A 1v1 map with a lot of metal and This is a description.",
     "version": 30,
     "is_active": false,
-    "players": ${palyers::array},
+    "players": [],
     "info": USA,
 }

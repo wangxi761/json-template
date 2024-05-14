@@ -75,15 +75,8 @@ public class JsonTemplateAntlrVisitor extends JsonTemplateParserBaseVisitor<Json
 	
 	@Override
 	public JsonTemplateNode<?> visitVar(VarContext ctx) {
-		InterpolExpr interpolExpr = InterpolExpr.toInterpolExpr(ctx.interpolExpr());
-		boolean isNode = true;
-		if (!ctx.getParent().isEmpty()) {
-			ParserRuleContext parent = ctx.getParent();
-			if (parent instanceof String_contentContext) {
-				isNode = false;
-			}
-		}
-		return new VarNode(interpolExpr, isNode, ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
+		InterpolExpr interpolExpr = InterpolExpr.toInterpolExpr(ctx);
+		return new VarNode(interpolExpr, ctx.getStart().getStartIndex(), ctx.getStop().getStopIndex());
 	}
 	
 	@Override
